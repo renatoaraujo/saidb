@@ -1,58 +1,51 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
+	"bufio"
+	"fmt"
 	"os"
+	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "saidb",
 	Short: "Simple and Insecure Database",
-	Long: `                                                                                                    
-                                                                                bbbbbbbb            
-   SSSSSSSSSSSSSSS              AAA               IIIIIIIIIIDDDDDDDDDDDDD       b::::::b            
- SS:::::::::::::::S            A:::A              I::::::::ID::::::::::::DDD    b::::::b            
-S:::::SSSSSS::::::S           A:::::A             I::::::::ID:::::::::::::::DD  b::::::b            
-S:::::S     SSSSSSS          A:::::::A            II::::::IIDDD:::::DDDDD:::::D  b:::::b            
-S:::::S                     A:::::::::A             I::::I    D:::::D    D:::::D b:::::bbbbbbbbb    
-S:::::S                    A:::::A:::::A            I::::I    D:::::D     D:::::Db::::::::::::::bb  
- S::::SSSS                A:::::A A:::::A           I::::I    D:::::D     D:::::Db::::::::::::::::b 
-  SS::::::SSSSS          A:::::A   A:::::A          I::::I    D:::::D     D:::::Db:::::bbbbb:::::::b
-    SSS::::::::SS       A:::::A     A:::::A         I::::I    D:::::D     D:::::Db:::::b    b::::::b
-       SSSSSS::::S     A:::::AAAAAAAAA:::::A        I::::I    D:::::D     D:::::Db:::::b     b:::::b
-            S:::::S   A:::::::::::::::::::::A       I::::I    D:::::D     D:::::Db:::::b     b:::::b
-            S:::::S  A:::::AAAAAAAAAAAAA:::::A      I::::I    D:::::D    D:::::D b:::::b     b:::::b
-SSSSSSS     S:::::S A:::::A             A:::::A   II::::::IIDDD:::::DDDDD:::::D  b:::::bbbbbb::::::b
-S::::::SSSSSS:::::SA:::::A               A:::::A  I::::::::ID:::::::::::::::DD   b::::::::::::::::b 
-S:::::::::::::::SSA:::::A                 A:::::A I::::::::ID::::::::::::DDD     b:::::::::::::::b  
- SSSSSSSSSSSSSSS AAAAAAA                   AAAAAAAIIIIIIIIIIDDDDDDDDDDDDD        bbbbbbbbbbbbbbbb   
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Print(`
+     ___      )¯¯,¯\ ° |¯¯¯| |\¯¯¯|\¯¯\  |\¯¯¯,¯)  
+  _(   __\   /__/'\__\ |___| \/___|/__/| \/___'__)'
+/____)__| |__ |/\|__|'|___| |___ |__'|/‘ |______|‘
+|____|‘     '               ‘           °        ‘            
 
-`,
-	//Run: func(cmd *cobra.Command, args []string) {
-	//commands := map[string]interface{}{}
-	//
-	//reader := bufio.NewScanner(os.Stdin)
-	//fmt.Print("saidb > ")
-	//
-	//for reader.Scan() {
-	//	text := strings.TrimSpace(reader.Text())
-	//	text = strings.ToLower(text)
-	//
-	//	if command, exists := commands[text]; exists {
-	//		// Call a hardcoded function
-	//		command.(func())()
-	//	} else if strings.EqualFold("exit", text) {
-	//		return
-	//	} else {
-	//		fmt.Printf("command not found: %s \n", text)
-	//	}
-	//
-	//	fmt.Print("saidb > ")
-	//}
-	//
-	//fmt.Println()
-	//},
+`)
+		commands := map[string]interface{}{}
+
+		reader := bufio.NewScanner(os.Stdin)
+		fmt.Print("saidb > ")
+
+		for reader.Scan() {
+			text := strings.TrimSpace(reader.Text())
+			text = strings.ToLower(text)
+
+			if text != "" {
+				if command, exists := commands[text]; exists {
+					// Call a hardcoded function
+					command.(func())()
+				} else if strings.EqualFold("exit", text) {
+					return
+				} else {
+					fmt.Printf("command not found: %s \n", text)
+				}
+			}
+
+			fmt.Print("saidb > ")
+		}
+
+		fmt.Println()
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
