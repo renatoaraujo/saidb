@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "saidb/cmd"
 
 func main() {
-	fmt.Println("Ready to go")
+	cmd.Execute()
 }
